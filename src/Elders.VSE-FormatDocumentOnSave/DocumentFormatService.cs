@@ -26,7 +26,7 @@ namespace Elders.VSE_FormatDocumentOnSave
             try
             {
                 var cfg = getGeneralCfg(doc);
-                var filter = new AllowDenyDocumentFilter(cfg.Allowed, cfg.Denied);
+                var filter = new AllowDenyDocumentFilter(cfg.Allowed, cfg.Denied, cfg.ExcludedPaths);
 
                 foreach (string splitCommand in cfg.Commands.Trim().Split(' '))
                 {

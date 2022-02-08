@@ -16,7 +16,7 @@ namespace Elders.VSE_FormatDocumentOnSave
         /// </summary>
         public AllowDenyDocumentFilter() { }
 
-        public AllowDenyDocumentFilter(IEnumerable<string> allowedExtensions, IEnumerable<string> deniedExtensions)
+        public AllowDenyDocumentFilter(IEnumerable<string> allowedExtensions, IEnumerable<string> deniedExtensions, IEnumerable<string> excludedPaths)
         {
             IEnumerable<string> bannedExtensions = deniedExtensions
                 .Except(allowedExtensions)
@@ -28,11 +28,14 @@ namespace Elders.VSE_FormatDocumentOnSave
 
             bool areAllExtensionsAllowed = allowedExtensions.Where(ext => ext.Equals(".*")).Any();
             bool areAllExtensionsDenied = deniedExtensions.Where(ext => ext.Equals(".*")).Any();
+            bool anyDeniedPaths = excludedPaths.Where(path => path.Length > 0).Any();
 
             isAllowed = doc =>
+                (!anyDeniedPaths || !excludedPaths.Any(path => doc.FullName.StartsWith(path))) && (
                 areAllExtensionsAllowed ||
                 approvedExtensions.Any(ext => doc.FullName.EndsWith(ext, StringComparison.OrdinalIgnoreCase)) ||
-                (bannedExtensions.Any(ext => doc.FullName.EndsWith(ext, StringComparison.OrdinalIgnoreCase)) == false && areAllExtensionsDenied == false);
+                (bannedExtensions.Any(ext => doc.FullName.EndsWith(ext, StringComparison.OrdinalIgnoreCase)) == false && areAllExtensionsDenied == false)
+				);
         }
 
         public bool IsAllowed(Document document)

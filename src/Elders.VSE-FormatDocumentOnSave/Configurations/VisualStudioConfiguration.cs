@@ -22,6 +22,11 @@ namespace Elders.VSE_FormatDocumentOnSave.Configurations
         public string Denied { get; set; } = "";
 
         [Category("Format Document On Save")]
+        [DisplayName("Excluded paths")]
+        [Description("| separated list of paths to exclude. For example: [ ./examples|./tests ]")]
+        public string ExcludedPaths { get; set; } = "";
+
+        [Category("Format Document On Save")]
         [DisplayName("Commands")]
         [Description("Space separated list. The Visual Studio command to execute. Defaults to VS command [Edit.FormatDocument]")]
         public string Commands { get; set; } = "Edit.FormatDocument";
@@ -34,5 +39,7 @@ namespace Elders.VSE_FormatDocumentOnSave.Configurations
         IEnumerable<string> IConfiguration.Allowed => Allowed.Split(' ');
 
         IEnumerable<string> IConfiguration.Denied => Denied.Split(' ');
+
+        IEnumerable<string> IConfiguration.ExcludedPaths => ExcludedPaths.Split('|');
     }
 }
