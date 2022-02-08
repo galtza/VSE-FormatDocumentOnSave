@@ -20,6 +20,11 @@ namespace Elders.VSE_FormatDocumentOnSave.Configurations
         IEnumerable<string> Denied { get; }
 
         /// <summary>
+        /// '|'-separated excluded paths. For example: ./examples|./tests
+        /// </summary>
+        IEnumerable<string> ExcludedPaths { get; }
+
+        /// <summary>
         /// The Visual Studio commands to execute. Defaults to format document (Edit.FormatDocument)
         /// </summary>
         string Commands { get; }
